@@ -16,7 +16,7 @@ class RippleAnimation extends StatefulWidget {
   final Duration duration;
   final bool repeat;
 
-  const RippleAnimation(
+  RippleAnimation(
       {Key? key,
       required this.child,
       this.delay = const Duration(milliseconds: 0),
@@ -44,7 +44,7 @@ class RippleAnimation extends StatefulWidget {
 
 class _RippleAnimationState extends State<RippleAnimation>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _RippleAnimationState extends State<RippleAnimation>
 
     // repeating or just forwarding the animation once.
     Timer(widget.delay, () {
-      widget.repeat ? _controller.repeat() : _controller.forward();
+      widget.repeat ? _controller!.repeat() : _controller!.forward();
     });
 
     super.initState();
@@ -76,7 +76,7 @@ class _RippleAnimationState extends State<RippleAnimation>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 }
@@ -92,23 +92,23 @@ class CirclePainter extends CustomPainter {
   final Color color;
   final double minRadius;
   final wavesCount;
-  final Animation<double> _animation;
+  final Animation<double>? _animation;
 
   @override
   void paint(Canvas canvas, Size size) {
     final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
     for (int wave = 0; wave <= wavesCount; wave++) {
-      circle(canvas, rect, minRadius, wave, _animation.value, wavesCount);
+      circle(canvas, rect, minRadius, wave, _animation!.value, wavesCount);
     }
   }
 
   // animating the opacity according to min radius and waves count.
   void circle(Canvas canvas, Rect rect, double minRadius, int wave,
-      double value, int length) {
+      double value, int? length) {
     Color _color;
     double r;
     if (wave != 0) {
-      double opacity = (1 - ((wave - 1) / length) - value).clamp(0.0, 1.0);
+      double opacity = (1 - ((wave - 1) / length!) - value).clamp(0.0, 1.0);
       _color = color.withOpacity(opacity);
 
       r = minRadius * (1 + ((wave * value))) * value;

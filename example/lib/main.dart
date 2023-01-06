@@ -15,7 +15,7 @@ class TempScreen extends StatefulWidget {
 }
 
 class _TempScreenState extends State<TempScreen> {
-  Key _key;
+  Key? _key;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _TempScreenState extends State<TempScreen> {
                   'Reply',
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightBlue, // background
+                  backgroundColor: Colors.lightBlue, // background
                 ),
                 onPressed: () {
                   setState(() {
